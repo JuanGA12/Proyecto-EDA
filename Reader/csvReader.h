@@ -6,10 +6,17 @@
 #include <vector>
 #include "../Rtree/Node/Node.h"
 
-
-
 using namespace std;
 
+
+class Barrio
+{
+public:
+    string Nombre_Barrio;
+    vector<pair<double,double>> vertices;
+};
+
+vector <Barrio> Barrios;
 
 class csvReader {
 
@@ -21,7 +28,7 @@ public:
         string linea;
         char delimitador = ';';
 
-        vector<MBR> ContenedorCoordenaditasMBR;
+        vector<MBR> ContenedorMBRs;
 
         // Leemos la primer línea para descartarla, pues es el encabezado
         getline(archivo, linea);
@@ -29,6 +36,7 @@ public:
         // Leemos todas las líneas
         while (getline(archivo, linea))
         {
+            Barrio barrio;
             stringstream stream(linea); // Convertir la cadena a un stream
             string neighborhood,borough,coordinates;
 
@@ -36,6 +44,8 @@ public:
             getline(stream, neighborhood, delimitador);
             getline(stream, borough, delimitador);
             getline(stream, coordinates, delimitador);
+
+            barrio.Nombre_Barrio = neighborhood;
 
             stringstream stream1(coordinates);
             vector<pair<double, double>> Cordenaditas;
@@ -51,12 +61,13 @@ public:
 
                 Cordenaditas.push_back({stod(cor1),stod(cor2)});
             }
+            barrio.vertices = Cordenaditas;
             mbr.Generar_MBR(Cordenaditas);
-            ContenedorCoordenaditasMBR.push_back(mbr);
+            ContenedorMBRs.push_back(mbr);
+            Barrios.push_back(barrio);
         }
         archivo.close();
-        return ContenedorCoordenaditasMBR;
-
+        return ContenedorMBRs;
     };
 
 
@@ -143,6 +154,5 @@ public:
     };
 
 };
-
 
 #endif //PROYECTO_EDA_CSVREADER_H

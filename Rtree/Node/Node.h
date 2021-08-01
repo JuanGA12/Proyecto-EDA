@@ -6,12 +6,15 @@
 #include <vector>
 using namespace std;
 
+const int capacidad_nodo = 8;
+
 struct MBR {
 
     vector<pair<double,double>> LimitesCordenadas;
     int CantidadDimensiones;
 
     //Iniciamos con la cantidad de dimensiones que vamos a utilizar
+    MBR() = default;
     MBR(int Cantidad_Dimensiones){
         this->CantidadDimensiones = Cantidad_Dimensiones;
     };
@@ -51,5 +54,26 @@ struct MBR {
     }
 };
 
+class Node
+{
+public:
+    MBR Mbr;
+    int referencia_barrio;
+    Node* padre;
+    Node* hijos [capacidad_nodo];
+    bool esHoja;
+
+    Node()
+    {
+        this->Mbr = MBR(2);
+        referencia_barrio = -1;
+        padre = nullptr;
+        for(int i = 0; i < capacidad_nodo; i++)
+        {
+            hijos[i] = nullptr;
+        }
+        esHoja = 0;
+    }
+};
 
 #endif //PROYECTO_EDA_NODE_H
