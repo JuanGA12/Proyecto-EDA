@@ -10,8 +10,21 @@ const int capacidad_nodo = 8;
 
 struct MBR {
 
-    vector<pair<double,double>> LimitesCordenadas;
+    vector<pair<double,double>> LimitesCoordenadas;
     int CantidadDimensiones;
+    vector<double> puntoMedio;
+    bool contains(MBR &child){
+        bool con = true;
+        for(int i = 0; i < CantidadDimensiones; i++){
+            if(LimitesCoordenadas[i].first > child.LimitesCoordenadas[i].first){
+                con = false;
+            }
+            if(LimitesCoordenadas[i].second < child.LimitesCoordenadas[i].second){
+                con = false;
+            }
+        }
+        return con;
+    }
 
     //Iniciamos con la cantidad de dimensiones que vamos a utilizar
     MBR() = default;
@@ -23,34 +36,34 @@ struct MBR {
 
         vector<pair<double,double>> MBR_final;
 
-        for(int i = 0; i < CantidadDimensiones;i++)
-        {
+        for(int i = 0; i < CantidadDimensiones;i++){
+
             MBR_final.push_back(make_pair(1e7,-(1e7)));
         }
-        for(auto i : Coordenaditas)
-        {
-            if(i.first < MBR_final[0].first)
-            {
-                MBR_final[0].first = i.first;
-            }
-            if(i.first > MBR_final[0].second)
-            {
-                MBR_final[0].second = i.first;
-            }
+        for(auto i : Coordenaditas){
 
-            if(i.second < MBR_final[1].first)
-            {
-                MBR_final[1].first = i.second;
-            }
-
-            if(i.second > MBR_final[1].second)
-            {
-                MBR_final[1].second = i.second;
-            }
-
+            if(i.first < MBR_final[0].first) MBR_final[0].first = i.first;
+            if(i.first > MBR_final[0].second) MBR_final[0].second = i.first;
+            if(i.second < MBR_final[1].first) MBR_final[1].first = i.second;
+            if(i.second > MBR_final[1].second) MBR_final[1].second = i.second;
         }
 
-        LimitesCordenadas = MBR_final;
+        LimitesCoordenadas = MBR_final;
+
+        for (int i = 0; i < CantidadDimensiones; i++){
+            double puntoMedio_ = (LimitesCoordenadas[i].first + LimitesCoordenadas[i].second)/2;
+            puntoMedio.push_back(puntoMedio_);
+        }
+
+    }
+    void getMBR(MBR mbr1, MBR mbr2 ){
+        vector<pair<double,double>> newMBR;
+        for(int i = 0; i < CantidadDimensiones; i++){
+            double mbr_min = min(mbr1.LimitesCoordenadas[i].first, mbr2.LimitesCoordenadas[i].first);
+            double mbr_max = max(mbr1.LimitesCoordenadas[i].second, mbr2.LimitesCoordenadas[i].second);
+            newMBR.push_back({mbr_min,mbr_max});
+        }
+        LimitesCoordenadas = newMBR;
     }
 };
 
@@ -74,6 +87,7 @@ public:
         }
         esHoja = 0;
     }
+
 };
 
 #endif //PROYECTO_EDA_NODE_H
