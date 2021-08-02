@@ -1,6 +1,7 @@
 #ifndef PROYECTO_EDA_RTREE_H
 #define PROYECTO_EDA_RTREE_H
-
+#include <math.h>
+#include <algorithm>
 #include "Node/Node.h"
 
 class Rtree {
@@ -34,10 +35,52 @@ public:
                 return true;
             }else{//iterar hasta el padre de las hojas y hacer comparaciones
                 auto temp = root;
+                vector<Node*> Padres;
+
                 while(!temp->hijos[0]->esHoja){
-                    if(temp->Mbr.contains(toInsert)){
+
+                    for(auto it : temp->hijos){
+                        if(it){
+                            if(it->Mbr.contains(toInsert)){
+                                Padres.push_back(it);
+                            }
+                        }
+                    }
+                    //Caso 1
+                    if(Padres.size() > 1) {
+                        //Preguntas si puedo meterlo en el padre
+                        vector<pair<double, int>> distancias;
+                        for (int i = 0; i < Padres.size(); i++) {
+                            double distancia = 0;
+
+                            for (int j = 0; j < Padres[i]->Mbr.CantidadDimensiones; j++) {
+
+                                distancia += pow((Padres[i]->Mbr.puntoMedio[i] - toInsert.puntoMedio[i]), 2);
+
+                            }
+
+                            distancia = sqrt(distancia);
+                            distancias.push_back(make_pair(distancia, i));
+                        }
+
+                        sort(distancias.begin(), distancias.end());
+
+                        temp = Padres[distancias[0].second];
+                    //Caso 2
+                    if(Padres.size() == 1) {
+                        //Preguntas si lo puedo meter en el padre
+                        temp = Padres[0];
+                    }
+
+                    //Caso 3
+                    if(Padres.empty()){
+                        //Preguntas si lo puedo meter en el padre
+
+
+
 
                     }
+
                 }
             }
         }

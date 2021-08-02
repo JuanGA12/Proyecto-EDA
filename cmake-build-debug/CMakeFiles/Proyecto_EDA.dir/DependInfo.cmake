@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Reader/csvReader.cpp" "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/Reader/csvReader.cpp.o"
-  "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Node/Node.cpp" "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/Rtree/Node/Node.cpp.o"
-  "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Rtree.cpp" "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/Rtree/Rtree.cpp.o"
-  "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/main.cpp" "/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/main.cpp.o"
+  "C:/Users/Usuario/Desktop/Proyecto-EDA/Reader/csvReader.cpp" "C:/Users/Usuario/Desktop/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/Reader/csvReader.cpp.obj"
+  "C:/Users/Usuario/Desktop/Proyecto-EDA/Rtree/Node/Node.cpp" "C:/Users/Usuario/Desktop/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/Rtree/Node/Node.cpp.obj"
+  "C:/Users/Usuario/Desktop/Proyecto-EDA/Rtree/Rtree.cpp" "C:/Users/Usuario/Desktop/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/Rtree/Rtree.cpp.obj"
+  "C:/Users/Usuario/Desktop/Proyecto-EDA/main.cpp" "C:/Users/Usuario/Desktop/Proyecto-EDA/cmake-build-debug/CMakeFiles/Proyecto_EDA.dir/main.cpp.obj"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
