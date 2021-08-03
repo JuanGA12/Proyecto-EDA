@@ -14,6 +14,7 @@ class Barrio
 public:
     string Nombre_Barrio;
     vector<pair<double,double>> vertices;
+    Barrio() : Nombre_Barrio("") {}
 };
 
 vector <Barrio> Barrios;

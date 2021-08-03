@@ -67,6 +67,10 @@ struct MBR {
             newMBR.push_back({mbr_min,mbr_max});
         }
         LimitesCoordenadas = newMBR;
+        for (int i = 0; i < CantidadDimensiones; i++){
+            double puntoMedio_ = (LimitesCoordenadas[i].first + LimitesCoordenadas[i].second)/2;
+            puntoMedio.push_back(puntoMedio_);
+        }
     }
 };
 

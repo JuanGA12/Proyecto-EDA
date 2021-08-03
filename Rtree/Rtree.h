@@ -2,7 +2,7 @@
 #define PROYECTO_EDA_RTREE_H
 #include <math.h>
 #include <algorithm>
-#include "Node/Node.h"
+#include "../Reader/csvReader.h"
 
 class Rtree {
 private:
@@ -290,5 +290,40 @@ public:
         }
     }
 
+    Barrio search(pair<double,double> point){
+
+        auto mbr = MBR(2);
+        mbr.Generar_MBR({{point.first,point.second}});
+
+        auto temp = root;
+        auto fail = Barrio();
+        while(temp->Mbr.contains(mbr) and !temp->esHoja){
+            auto aux = temp;
+            for(int i = 0 ; i < temp->cantidad_hijos; i++){
+                if(temp->hijos[i]->Mbr.contains(mbr)) {
+                    temp = temp->hijos[i];
+                    break;
+                }
+            }
+            if(temp == aux) return fail;
+        }
+        if(temp->referencia_barrio == -1) return fail;
+        auto barrio = Barrios[temp->referencia_barrio];
+        return (!barrio.Nombre_Barrio.empty()) ? barrio : fail;
+    }
+
+    bool PuntoEnPoligono(vector<pair<double,double>> poligono, pair<double,double> p)
+    {
+        int i, j;
+        bool c = false;
+        for(i = 0, j = (poligono.size()-1); i < poligono.size(); j = i++ )
+        {
+            auto ppi = poligono[i];
+            auto ppj = poligono[j];
+            if( ((ppi.second>p.second) != (ppj.second>p.second)) && (p.first < (ppj.first - ppi.first) * (p.second - ppi.second) / (ppj.second - ppi.second) + ppi.first) )
+                c =! c;
+        }
+        return c;
+    }
 };
 #endif //PROYECTO_EDA_RTREE_H

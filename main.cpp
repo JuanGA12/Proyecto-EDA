@@ -1,14 +1,5 @@
 #include <iostream>
-#include <sstream>
-#include <fstream>
-#include <vector>
-#include "Rtree/Node/Node.h"
-#include "Reader/csvReader.h"
 #include "Rtree/Rtree.h"
-
-
-
-
 
 
 int main() {
@@ -22,8 +13,14 @@ int main() {
     for(int i=0; i < contenedor.size(); i++){
         arbolito.insert(contenedor[i],i);
 
-    }
-    cout << "Bot";
+    }/*
+    for(auto &i:Barrios){
+        cout<<i.Nombre_Barrio<<" ";
+    }*/
+
+    auto search = arbolito.search({-73.858419999999995,40.865254999999998});
+    cout<<search.Nombre_Barrio;
+    cout<<arbolito.PuntoEnPoligono()
 
     return 0;
 }
