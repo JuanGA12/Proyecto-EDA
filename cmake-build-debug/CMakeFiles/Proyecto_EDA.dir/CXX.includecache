@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Reader/csvReader.h
+C:/Users/Usuario/Desktop/Proyecto-EDA/Reader/csvReader.h
 iostream
 -
 sstream
@@ -16,9 +16,9 @@ fstream
 vector
 -
 ../Rtree/Node/Node.h
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Node/Node.h
+C:/Users/Usuario/Desktop/Proyecto-EDA/Rtree/Node/Node.h
 
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Node/Node.h
+C:/Users/Usuario/Desktop/Proyecto-EDA/Rtree/Node/Node.h
 iostream
 -
 sstream
@@ -28,7 +28,7 @@ fstream
 vector
 -
 
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Rtree.h
+C:/Users/Usuario/Desktop/Proyecto-EDA/Rtree/Rtree.h
 math.h
 -
 stack
@@ -36,11 +36,11 @@ stack
 algorithm
 -
 ../Reader/csvReader.h
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Reader/csvReader.h
+C:/Users/Usuario/Desktop/Proyecto-EDA/Reader/csvReader.h
 
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/main.cpp
+C:/Users/Usuario/Desktop/Proyecto-EDA/main.cpp
 iostream
 -
 Rtree/Rtree.h
-/Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Rtree.h
+C:/Users/Usuario/Desktop/Proyecto-EDA/Rtree/Rtree.h
 

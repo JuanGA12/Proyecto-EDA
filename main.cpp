@@ -6,20 +6,17 @@ int main() {
 
     csvReader Lectura;
 
-    auto contenedor = Lectura.leer_Barrios("Barrios_Prueba5.csv",2);
+    auto contenedor = Lectura.leer_Barrios("Barrios.csv",2);
 
-    Rtree arbolito;
+    Rtree Arbol;
 
-    for(int i=0; i < contenedor.size(); i++){
-        arbolito.insert(contenedor[i],i);
+    for(int i=0; i < contenedor.size(); i++) Arbol.insert(contenedor[i],i);
 
-    }/*
-    for(auto &i:Barrios){
-        cout<<i.Nombre_Barrio<<" ";
-    }*/
+    auto searchResult = Arbol.search({-73.98690753704442, 40.68609554690169});
+    if(!searchResult.Nombre_Barrio.empty()){
+        cout<<"El punto se encuentra en "<<searchResult.Nombre_Barrio;
+    }else cout<<"No se encontró barrio";
 
-    auto search = arbolito.search({-73.848419999999994,40.865254999999998});
-    cout<<search.Nombre_Barrio;
 
     return 0;
 }

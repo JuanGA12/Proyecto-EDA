@@ -72,6 +72,9 @@ public:
     };
 
 
+
+
+
     void leer_taxis(string nombre_archivo){
 
 

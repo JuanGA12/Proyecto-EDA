@@ -9,6 +9,37 @@ class Rtree {
 private:
     Node* root;
 
+    //https://www.eecs.umich.edu/courses/eecs380/HANDOUTS/PROJ2/InsidePoly.html
+    bool PuntoEnPoligono(vector<pair<double,double>> poligono, pair<double,double> p){
+        int i;
+        double angle=0;
+        pair<double,double> p1;
+        pair<double,double> p2;
+        for (i=0;i<poligono.size();i++) {
+            p1.first = poligono[i].first - p.first; //X
+            p1.second = poligono[i].second - p.second;//Y
+            p2.first = poligono[(i+1)%poligono.size()].first - p.first;
+            p2.second = poligono[(i+1)%poligono.size()].second - p.second;
+            angle += Angle2D(p1.first,p1.second,p2.first,p2.second);
+        }
+        if (abs(angle) < (atan(1)*4))
+            return false;
+        else
+            return true;
+    }
+
+    double Angle2D(double x1, double y1, double x2, double y2){
+        double dtheta,theta1,theta2;
+        theta1 = atan2(y1,x1);
+        theta2 = atan2(y2,x2);
+        dtheta = theta2 - theta1;
+        while (dtheta > atan(1)*4)
+            dtheta -= ((atan(1)*4)+(atan(1)*4));
+        while (dtheta < -(atan(1)*4))
+            dtheta += ((atan(1)*4)+(atan(1)*4));
+        return(dtheta);
+    }
+
     double DistanciaEntreMBRs(MBR r1, MBR r2)
     {
         double distancia = 0;
@@ -22,7 +53,7 @@ private:
         return distancia;
     }
 
-    void split_and_balance(Node* &toSplit, Node* toInsert)
+    void split_and_balance(Node* toSplit, Node* toInsert)
     {
         vector <Node*> nodos_a_splitear;
         for(int i = 0; i < toSplit->cantidad_hijos; i++)
@@ -90,7 +121,6 @@ private:
             Node1->padre = newRoot;
             Node2->padre = newRoot;
             root = newRoot;
-            delete toSplit;
             return;
         }
         else
@@ -107,12 +137,11 @@ private:
             {
                 toSplit->padre->hijos[toSplit->padre->cantidad_hijos] = Node2;
                 toSplit->padre->cantidad_hijos++;
-                delete toSplit;
                 return;
             }
             else
             {
-                split_and_balance(toSplit->padre, Node2);
+                split_and_balance(Node1->padre, Node2);
             }
         }
     }
@@ -276,12 +305,13 @@ public:
                     }
                     else
                     {
-                        while(temp && !(temp->Mbr.contains(toInsert)) )
+                        auto aux = temp;
+                        while(aux && !(aux->Mbr.contains(toInsert)) )
                         {
                             auto newMBR = MBR(2);
-                            newMBR.MBRresultante(temp->Mbr,toInsert);
-                            temp->Mbr = newMBR;
-                            temp = temp->padre;
+                            newMBR.MBRresultante(aux->Mbr,toInsert);
+                            aux->Mbr = newMBR;
+                            aux = aux->padre;
                         }
                         split_and_balance(temp,newNode);
                         //SPLIT CON CHOCOLATE DOBLE
@@ -320,18 +350,6 @@ public:
         return fail;
     }
 
-    bool PuntoEnPoligono(vector<pair<double,double>> poligono, pair<double,double> p)
-    {
-        int i, j;
-        bool c = false;
-        for(i = 0, j = (poligono.size()-1); i < poligono.size(); j = i++ )
-        {
-            auto ppi = poligono[i];
-            auto ppj = poligono[j];
-            if( ((ppi.second>p.second) != (ppj.second>p.second)) && (p.first < (ppj.first - ppi.first) * (p.second - ppi.second) / (ppj.second - ppi.second) + ppi.first) )
-                c =! c;
-        }
-        return c;
-    }
+
 };
 #endif //PROYECTO_EDA_RTREE_H
