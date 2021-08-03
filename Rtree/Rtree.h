@@ -46,7 +46,7 @@ private:
 
         for(int i = 0; i < nodos_a_splitear.size(); i++)
         {
-            if(i == extremos.first || i == extremos.second )
+            if(i == extremos.first or i == extremos.second )
                 continue;
             if(DistanciaEntreMBRs(nodos_a_splitear[i]->Mbr, nodos_a_splitear[extremos.first]->Mbr) <=  DistanciaEntreMBRs(nodos_a_splitear[i]->Mbr, nodos_a_splitear[extremos.second]->Mbr))
             {
@@ -74,12 +74,12 @@ private:
             }
         }
 
-        if(toSplit->padre ==nullptr)
+        if(!toSplit->padre)
         {
             auto newRoot = new Node;
-            newRoot->hijos[capacidad_nodo] = Node1;
+            newRoot->hijos[newRoot->cantidad_hijos] = Node1;
             newRoot->cantidad_hijos++;
-            newRoot->hijos[capacidad_nodo] = Node2;
+            newRoot->hijos[newRoot->cantidad_hijos] = Node2;
             newRoot->cantidad_hijos++;
 
             auto newMBR = MBR(2);
@@ -94,7 +94,7 @@ private:
         }
         else
         {
-            for(int i = 0; i <  toSplit->padre->cantidad_hijos; i++)
+            for(int i = 0; i < toSplit->padre->cantidad_hijos; i++)
             {
                 if(toSplit->padre->hijos[i] == toSplit)
                 {
@@ -138,14 +138,14 @@ private:
 public:
     Rtree() : root(nullptr){};
 
-    bool insert(MBR &toInsert, int index){
+    void insert(MBR &toInsert, int index){
         auto newNode = new Node();
         newNode->Mbr = toInsert;
         newNode->referencia_barrio = index;
         newNode->esHoja = true;
         if(!root){
             root = newNode;
-            return true;
+            return;
         }else{
             if(root->esHoja){//Cuando el root es hoja y se inserta otro elemento
                 auto newMBR = MBR(2);
@@ -153,15 +153,16 @@ public:
                 auto parent = new Node();
                 parent->Mbr = newMBR;
 
-                parent->hijos[0] = root;
-                parent->hijos[1] = newNode;
-                parent->cantidad_hijos = 2;
+                parent->hijos[parent->cantidad_hijos] = root;
+                parent->cantidad_hijos++;
+                parent->hijos[parent->cantidad_hijos] = newNode;
+                parent->cantidad_hijos++;
 
-                parent->hijos[0]->padre = parent;
-                parent->hijos[1]->padre = parent;
+                root->padre = parent;
+                newNode->padre = parent;
 
                 root = parent;
-                return true;
+                return;
             }else{//iterar hasta el padre de las hojas y hacer comparaciones
                 auto temp = root;
                 bool Flag_contain = 1;
@@ -215,29 +216,30 @@ public:
                             newNode->padre = root;
                             root->hijos[root->cantidad_hijos] = newNode;
                             root->cantidad_hijos++;
-                            return true;
+                            return;
                         }
                         else
                         {
                             split_and_balance(root,newNode);
-                            return true;
+                            return;
                         }
                     }
                     else
                     {
+                        auto newMBR = MBR(2);
+                        newMBR.MBRresultante(root->Mbr,toInsert);
+                        root->Mbr = newMBR;
                         if(root->cantidad_hijos < capacidad_nodo)
                         {
                             newNode->padre = root;
                             root->hijos[root->cantidad_hijos] = newNode;
                             root->cantidad_hijos++;
-                            auto newMBR = MBR(2);
-                            newMBR.MBRresultante(root->Mbr,toInsert);
-                            root->Mbr = newMBR;
-                            return true;
+                            return;
                         }
                         else
                         {
-                            //CHOCO
+                            split_and_balance(root,newNode);
+                            //SPLIT CON CHOCOLATE DOBLE
                         }
                     }
                 }
@@ -248,7 +250,7 @@ public:
                         newNode->padre = temp;
                         temp->hijos[temp->cantidad_hijos] = newNode;
                         temp->cantidad_hijos++;
-                        return true;
+                        return;
                     }
                     else
                     {
@@ -263,23 +265,29 @@ public:
                         temp->hijos[temp->cantidad_hijos] = newNode;
                         temp->cantidad_hijos++;
 
-                        while(temp!=nullptr && !(temp->Mbr.contains(toInsert)) )
+                        while(temp && !(temp->Mbr.contains(toInsert)) )
                         {
                             auto newMBR = MBR(2);
                             newMBR.MBRresultante(temp->Mbr,toInsert);
                             temp->Mbr = newMBR;
+                            temp = temp->padre;
                         }
-                        return true;
                     }
                     else
                     {
+                        while(temp && !(temp->Mbr.contains(toInsert)) )
+                        {
+                            auto newMBR = MBR(2);
+                            newMBR.MBRresultante(temp->Mbr,toInsert);
+                            temp->Mbr = newMBR;
+                            temp = temp->padre;
+                        }
+                        split_and_balance(temp,newNode);
                         //SPLIT CON CHOCOLATE DOBLE
                     }
                 }
             }
         }
-
-        return true;
     }
 
 };
