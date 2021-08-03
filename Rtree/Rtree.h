@@ -1,6 +1,7 @@
 #ifndef PROYECTO_EDA_RTREE_H
 #define PROYECTO_EDA_RTREE_H
 #include <math.h>
+#include <stack>
 #include <algorithm>
 #include "../Reader/csvReader.h"
 
@@ -295,21 +296,28 @@ public:
         auto mbr = MBR(2);
         mbr.Generar_MBR({{point.first,point.second}});
 
-        auto temp = root;
         auto fail = Barrio();
-        while(temp->Mbr.contains(mbr) and !temp->esHoja){
-            auto aux = temp;
-            for(int i = 0 ; i < temp->cantidad_hijos; i++){
-                if(temp->hijos[i]->Mbr.contains(mbr)) {
-                    temp = temp->hijos[i];
-                    break;
+        stack<Node*> posibles;
+        posibles.push(root);
+        if(root->Mbr.contains(mbr)){
+            for(;!posibles.empty();){
+                auto temp = posibles.top();
+                posibles.pop();
+                if(!temp->esHoja){
+                    for(int i = 0 ; i < temp->cantidad_hijos; i++){
+                        if(temp->hijos[i]->Mbr.contains(mbr)) {
+                            posibles.push(temp->hijos[i]);
+                        }
+                    }
+                }else{
+                    auto barrio = Barrios[temp->referencia_barrio];
+                    if(PuntoEnPoligono(barrio.vertices,point)){
+                        return barrio;
+                    }
                 }
             }
-            if(temp == aux) return fail;
         }
-        if(temp->referencia_barrio == -1) return fail;
-        auto barrio = Barrios[temp->referencia_barrio];
-        return (!barrio.Nombre_Barrio.empty()) ? barrio : fail;
+        return fail;
     }
 
     bool PuntoEnPoligono(vector<pair<double,double>> poligono, pair<double,double> p)

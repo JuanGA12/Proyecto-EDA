@@ -31,6 +31,8 @@ vector
 /Users/juangalvezc/Desktop/7mo Ciclo/EDA/Proyecto-EDA/Rtree/Rtree.h
 math.h
 -
+stack
+-
 algorithm
 -
 ../Reader/csvReader.h

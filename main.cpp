@@ -18,9 +18,8 @@ int main() {
         cout<<i.Nombre_Barrio<<" ";
     }*/
 
-    auto search = arbolito.search({-73.858419999999995,40.865254999999998});
+    auto search = arbolito.search({-73.848419999999994,40.865254999999998});
     cout<<search.Nombre_Barrio;
-    cout<<arbolito.PuntoEnPoligono()
 
     return 0;
 }
