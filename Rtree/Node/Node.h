@@ -5,8 +5,8 @@
 #include <fstream>
 #include <vector>
 using namespace std;
-
 const int capacidad_nodo = 8;
+
 
 struct MBR {
 
