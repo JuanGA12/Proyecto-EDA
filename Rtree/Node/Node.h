@@ -56,7 +56,10 @@ struct MBR {
         }
 
     }
-    void getMBR(MBR mbr1, MBR mbr2 ){
+
+
+
+    void MBRresultante(MBR mbr1, MBR mbr2 ){
         vector<pair<double,double>> newMBR;
         for(int i = 0; i < CantidadDimensiones; i++){
             double mbr_min = min(mbr1.LimitesCoordenadas[i].first, mbr2.LimitesCoordenadas[i].first);
@@ -74,6 +77,7 @@ public:
     int referencia_barrio;
     Node* padre;
     Node* hijos [capacidad_nodo];
+    int cantidad_hijos;
     bool esHoja;
 
     Node()
@@ -81,6 +85,7 @@ public:
         this->Mbr = MBR(2);
         referencia_barrio = -1;
         padre = nullptr;
+        cantidad_hijos = 0;
         for(int i = 0; i < capacidad_nodo; i++)
         {
             hijos[i] = nullptr;
@@ -89,5 +94,4 @@ public:
     }
 
 };
-
 #endif //PROYECTO_EDA_NODE_H
